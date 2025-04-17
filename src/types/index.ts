@@ -1,7 +1,7 @@
-export type ApiPaymentMethod = 'online' | 'offline';
-export type ApiCategory = 'софт-скил' | 'другое' | 'дополнительное' | 'кнопка' | 'хард-скил';
+ type ApiPaymentMethod = 'online' | 'offline';
+ type ApiCategory = 'софт-скил' | 'другое' | 'дополнительное' | 'кнопка' | 'хард-скил';
 
-export interface ApiProduct {
+ interface ApiProduct {
   id: string;
   description: string;
   image: string;
@@ -10,12 +10,12 @@ export interface ApiProduct {
   price: number | null;
 }
 
-export interface ApiProductListResponse {
+ interface ApiProductListResponse {
   total: number;
   items: ApiProduct[];
 }
 
-export interface ApiOrderRequest {
+ interface ApiOrderRequest {
   payment: ApiPaymentMethod;
   email: string;
   phone: string;
@@ -24,22 +24,22 @@ export interface ApiOrderRequest {
   items: string[];
 }
 
-export interface ApiOrderResponse {
+ interface ApiOrderResponse {
   id: string;
   total: number;
 }
 
-export interface ApiErrorResponse {
+ interface ApiErrorResponse {
   error: string;
 }
 
-export interface DisplayCategory {
+ interface DisplayCategory {
     apiValue: ApiCategory;
     displayValue: string;
     cssClass: string;
   }
   
-  export interface DisplayProduct {
+   interface DisplayProduct {
     id: string;
     description: string;
     image: string;
@@ -50,7 +50,7 @@ export interface DisplayCategory {
     isInCart: boolean;
   }
   
-  export interface DisplayOrder {
+  interface DisplayOrder {
     id: string;
     total: number;
     items: DisplayProduct[];
@@ -58,4 +58,14 @@ export interface DisplayCategory {
     email: string;
     phone: string;
     address: string;
+  }
+
+ interface BacketLot {
+  title: string;
+  price: number | null;
+ }
+
+  interface Backet {
+  items: BacketLot[];
+  total: number | null;
   }
