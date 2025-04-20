@@ -1,5 +1,6 @@
  type ApiPaymentMethod = 'online' | 'offline';
  type ApiCategory = 'софт-скил' | 'другое' | 'дополнительное' | 'кнопка' | 'хард-скил';
+ type ValidationData = Pick<DisplayOrder, 'email' | 'address' | 'phone'>;
 
  interface ApiProduct {
   id: string;
@@ -52,8 +53,8 @@
   
   interface DisplayOrder {
     id: string;
+    items: string;
     total: number;
-    items: DisplayProduct[];
     payment: ApiPaymentMethod;
     email: string;
     phone: string;
@@ -68,4 +69,14 @@
   interface Backet {
   items: BacketLot[];
   total: number | null;
+  }
+
+  interface OrderData {
+    payment: ApiPaymentMethod;
+    address: string;
+  }
+
+  interface UserData {
+    email: string;
+    phone: string;
   }
