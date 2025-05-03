@@ -1,82 +1,102 @@
- type ApiPaymentMethod = 'online' | 'offline';
- type ApiCategory = 'софт-скил' | 'другое' | 'дополнительное' | 'кнопка' | 'хард-скил';
- type ValidationData = Pick<DisplayOrder, 'email' | 'address' | 'phone'>;
+type ApiCategory =
+	| 'софт-скил'
+	| 'другое'
+	| 'дополнительное'
+	| 'кнопка'
+	| 'хард-скил';
+export type ValidationData = Pick<DisplayOrder, 'email' | 'address' | 'phone'>;
+export type FormErrors = Partial<Record<keyof DisplayOrder, string>>;
 
- interface ApiProduct {
-  id: string;
-  description: string;
-  image: string;
-  title: string;
-  category: ApiCategory;
-  price: number | null;
+export interface ApiProduct {
+	id: string;
+	description: string;
+	image: string;
+	title: string;
+	category: ApiCategory;
+	price: number | null;
 }
 
- interface ApiProductListResponse {
-  total: number;
-  items: ApiProduct[];
+export interface ApiProductListResponse {
+	total: number;
+	items: ApiProduct[];
 }
 
- interface ApiOrderRequest {
-  payment: ApiPaymentMethod;
-  email: string;
-  phone: string;
-  address: string;
-  total: number;
-  items: string[];
+export interface ApiOrderRequest {
+	payment: string;
+	email: string;
+	phone: string;
+	address: string;
+	total: number;
+	items: string[];
 }
 
- interface ApiOrderResponse {
-  id: string;
-  total: number;
+export interface ApiOrderResponse {
+	id: string;
+	total: number;
 }
 
- interface ApiErrorResponse {
-  error: string;
+interface ApiErrorResponse {
+	error: string;
 }
 
- interface DisplayCategory {
-    apiValue: ApiCategory;
-    displayValue: string;
-    cssClass: string;
-  }
-  
-   interface DisplayProduct {
-    id: string;
-    description: string;
-    image: string;
-    title: string;
-    category: DisplayCategory;
-    price: string;
-    priceValue: number | null;
-    isInCart: boolean;
-  }
-  
-  interface DisplayOrder {
-    id: string;
-    items: string;
-    total: number;
-    payment: ApiPaymentMethod;
-    email: string;
-    phone: string;
-    address: string;
-  }
+interface DisplayCategory {
+	apiValue: ApiCategory;
+	displayValue: string;
+	cssClass: string;
+}
 
- interface BacketLot {
-  title: string;
-  price: number | null;
- }
+interface DisplayProduct {
+	id: string;
+	description: string;
+	image: string;
+	title: string;
+	category: DisplayCategory;
+	price: string;
+	priceValue: number | null;
+	isInCart: boolean;
+}
 
-  interface Backet {
-  items: BacketLot[];
-  total: number | null;
-  }
+export interface DisplayOrder {
+	id: string;
+	items: string;
+	total: number;
+	payment: string;
+	email: string;
+	phone: string;
+	address: string;
+}
 
-  interface OrderData {
-    payment: ApiPaymentMethod;
-    address: string;
-  }
+export interface BacketLot {
+	title: string;
+	price: number | null;
+}
 
-  interface UserData {
-    email: string;
-    phone: string;
-  }
+export interface Backet {
+	items: BacketLot[];
+	total: number | null;
+}
+
+export interface OrderData {
+	payment: string;
+	address: string;
+}
+
+export interface OrderForm extends OrderData, UserData {}
+
+export interface IAppState {
+	catalog: ApiProduct[];
+	basket: string[];
+	preview: string | null;
+	order: OrderForm | null;
+}
+
+export interface UserData {
+	email: string;
+	phone: string;
+}
+
+export interface IItemsBasket {
+	id: string;
+	title: string;
+	price: number | null;
+}
