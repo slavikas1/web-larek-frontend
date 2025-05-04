@@ -162,13 +162,12 @@ events.on('card:select', (item: ApiProduct) => {
 events.on('preview:changed', (item: ApiProduct) => {
 	const card = new OpenedCard(cloneTemplate(cardPreviewTemplate), {
 		onClick: () => {
-			if (appData.basket.find((Id) => Id === item.id)) {
-				events.emit('basket-item:remove');
-				appData.toggleOrderedItem(item.id, false);
+			const isInBasket = appData.basket.find((Id) => Id === item.id);
+			appData.toggleOrderedItem(item.id, !isInBasket);
+
+			if (isInBasket) {
 				card.setButtonText('Купить');
 			} else {
-				events.emit('basket-item:add');
-				appData.toggleOrderedItem(item.id, true);
 				card.setButtonText('Убрать');
 			}
 		},
