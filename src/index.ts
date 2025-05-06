@@ -77,7 +77,6 @@ events.on('contacts:submit', () => {
 			modal.render({
 				content: success.render({}),
 			});
-			events.emit('success:open');
 		})
 		.catch((err) => {
 			console.error(err);
@@ -148,7 +147,6 @@ events.on('order:submit', () => {
 			errors: [],
 		}),
 	});
-	events.emit('constacts:open');
 });
 
 // Открыть карточку товара
@@ -162,6 +160,9 @@ events.on('card:select', (item: ApiProduct) => {
 events.on('preview:changed', (item: ApiProduct) => {
 	const card = new OpenedCard(cloneTemplate(cardPreviewTemplate), {
 		onClick: () => {
+			if (item.price === null) {
+				return;
+			}
 			const isInBasket = appData.basket.find((Id) => Id === item.id);
 			appData.toggleOrderedItem(item.id, !isInBasket);
 
@@ -172,6 +173,9 @@ events.on('preview:changed', (item: ApiProduct) => {
 			}
 		},
 	});
+	if (item.price === null) {
+		card.setDisabled(card['_button'], true);
+	}
 	modal.render({ content: card.render(item) });
 });
 
@@ -192,7 +196,8 @@ events.on('basket:open', () => {
 
 // Изменение товаров в корзине
 events.on('basket:change', () => {
-	basket.items = appData.getOrderedItems().map((item) => {
+	const items = appData.getOrderedItems();
+	basket.items = items.map((item) => {
 		const card = new ItemsBasket(cloneTemplate(cardBasketTemplate), {
 			onClick: () => {
 				events.emit('basket-item:remove');

@@ -41,8 +41,8 @@ export class OrderDataForm extends Form<OrderData> {
 		);
 	}
 
-	set adress(value: string) {
-		(this.container.elements.namedItem('adress') as HTMLInputElement).value =
+	set address(value: string) {
+		(this.container.elements.namedItem('address') as HTMLInputElement).value =
 			value;
 	}
 }

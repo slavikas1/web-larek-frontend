@@ -65,6 +65,28 @@ export class CatalogItem extends Card<ApiProduct> {
 
 	set category(value: string) {
 		this.setText(this._category, value);
+		this._category.classList.remove(
+			'card__category_soft',
+			'card__category_other',
+			'card__category_hard',
+			'card__category_additional',
+			'card__category_button'
+		);
+		const categoryClass = this.getCategoryClass(value);
+		if (categoryClass) {
+			this._category.classList.add(categoryClass);
+		}
+	}
+
+	private getCategoryClass(category: string): string {
+		const categoryMap: Record<string, string> = {
+			'софт-скил': 'card__category_soft',
+			другое: 'card__category_other',
+			'хард-скил': 'card__category_hard',
+			дополнительное: 'card__category_additional',
+			кнопка: 'card__category_button',
+		};
+		return categoryMap[category.toLowerCase()] || '';
 	}
 }
 
@@ -85,6 +107,28 @@ export class OpenedCard extends Card<ApiProduct> {
 
 	set category(value: string) {
 		this.setText(this._category, value);
+		this._category.classList.remove(
+			'card__category_soft',
+			'card__category_other',
+			'card__category_hard',
+			'card__category_additional',
+			'card__category_button'
+		);
+		const categoryClass = this.getCategoryClass(value);
+		if (categoryClass) {
+			this._category.classList.add(categoryClass);
+		}
+	}
+
+	private getCategoryClass(category: string): string {
+		const categoryMap: Record<string, string> = {
+			'софт-скил': 'card__category_soft',
+			другое: 'card__category_other',
+			'хард-скил': 'card__category_hard',
+			дополнительное: 'card__category_additional',
+			кнопка: 'card__category_button',
+		};
+		return categoryMap[category.toLowerCase()] || '';
 	}
 
 	set description(value: string) {
@@ -92,11 +136,14 @@ export class OpenedCard extends Card<ApiProduct> {
 	}
 
 	set image(value: string) {
-		this.setText(this._image, value);
+		this.setImage(this._image, value);
 	}
 
 	setButtonText(value: string) {
 		this.setText(this._button, value);
+		if (this._price.textContent === 'Бесценно') {
+			this._button.disabled = true;
+		}
 	}
 }
 

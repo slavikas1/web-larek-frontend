@@ -38,6 +38,10 @@ export class AppState implements IAppState {
 	}
 
 	toggleOrderedItem(id: string, isIncluded: boolean) {
+		const item = this.catalog.find((it) => it.id === id);
+		if (!item || item.price === null) {
+			return;
+		}
 		if (isIncluded) {
 			this.basket.push(id);
 		} else {
@@ -74,18 +78,12 @@ export class AppState implements IAppState {
 
 	setOrderField(field: keyof OrderData, value: string) {
 		this.order[field] = value;
-
-		if (this.validateOrder()) {
-			this.events.emit('order:ready', this.order);
-		}
+		this.validateOrder();
 	}
 
 	setUserField(field: keyof UserData, value: string) {
 		this.order[field] = value;
-
-		if (this.validateUser()) {
-			this.events.emit('contact:ready', this.order);
-		}
+		this.validateUser();
 	}
 
 	validateOrder() {
