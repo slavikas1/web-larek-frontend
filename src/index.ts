@@ -152,29 +152,24 @@ events.on('order:submit', () => {
 // Открыть карточку товара
 events.on('card:select', (item: ApiProduct) => {
 	appData.setPreview(item);
-	console.log(item);
-	events.emit('preview:open');
 });
 
 // Открыть выбранную карточку
 events.on('preview:changed', (item: ApiProduct) => {
+	const isInBasket = appData.basket.includes(item.id);
 	const card = new OpenedCard(cloneTemplate(cardPreviewTemplate), {
 		onClick: () => {
 			if (item.price === null) {
 				return;
 			}
-			const isInBasket = appData.basket.find((Id) => Id === item.id);
 			appData.toggleOrderedItem(item.id, !isInBasket);
-
-			if (isInBasket) {
-				card.setButtonText('Купить');
-			} else {
-				card.setButtonText('Убрать');
-			}
+			events.emit('preview:changed', item);
 		},
 	});
 	if (item.price === null) {
 		card.setDisabled(card['_button'], true);
+	} else {
+		card.setButtonText(isInBasket ? 'Убрать' : 'Купить');
 	}
 	modal.render({ content: card.render(item) });
 });
@@ -200,7 +195,6 @@ events.on('basket:change', () => {
 	basket.items = items.map((item) => {
 		const card = new ItemsBasket(cloneTemplate(cardBasketTemplate), {
 			onClick: () => {
-				events.emit('basket-item:remove');
 				appData.toggleOrderedItem(item.id, false);
 				basket.total = appData.getTotal();
 			},
